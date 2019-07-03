@@ -1,7 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace RSLogixPowerSupply
 {
+
+    //public class PowerSupply
+    //{
+    //    public List<int> NodeList = new List<int>();
+    //    public int network = 0;
+    //    public int PDPFeed = 0;
+    //    public int ACFeed = 0;
+    //}
     class Program
     {
 
@@ -52,6 +61,15 @@ namespace RSLogixPowerSupply
             bool endApp = false;
             MainMenu MainMenuAction;
             displayOne();
+            PowerSupply PWS1 = new PowerSupply();
+            PWS1.network = 3;
+            PWS1.NodeList.Add(2);
+            PWS1.NodeList.Add(13);
+            foreach(var i in PWS1.NodeList)
+            {
+                Console.WriteLine($"Network {PWS1.network} Node:{i}");
+            }
+            
             while (!endApp)
 
 
