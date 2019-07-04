@@ -7,8 +7,9 @@ namespace RSLogixPowerSupply
     public class PowerSupply
     {
         public List<int> NodeList = new List<int>();
+        public String powerSupplyNumber = null;
         public int network = 0;
-        public int PDPFeed = 0;
-        public int ACFeed = 0;
+        public String PDPFeed = null;
+        public String ACFeed = null;
     }
 }

@@ -4,13 +4,6 @@ using System.Collections.Generic;
 namespace RSLogixPowerSupply
 {
 
-    //public class PowerSupply
-    //{
-    //    public List<int> NodeList = new List<int>();
-    //    public int network = 0;
-    //    public int PDPFeed = 0;
-    //    public int ACFeed = 0;
-    //}
     class Program
     {
 
@@ -27,13 +20,19 @@ namespace RSLogixPowerSupply
        
 
         private enum MainMenu : int
-        {
-            invalid = 0,
-            addItem = 1,
+        { 
+            AddItem = 1,
             EditItem = 2,
-            exit = 3
-
+            
+            Exit = 3
         }
+
+        private enum addItemMenu : int
+        {
+            AddPowerSupply = 1,
+            BackToMainMenu = 2
+        }
+
         private static readonly string MainMenuText =
             "RSLogixCode PowerSupply Code Generator\n" +
             "--------------------------------------\n" +
@@ -43,10 +42,10 @@ namespace RSLogixPowerSupply
             "Your Option: ";
 
         private static readonly string addItemText =
-            "Add Item Menun\n" +
+            "Add Item Menu\n" +
             "--------------\n" +
-            "\t1 - Do something" +
-            "\t2 - Go back to main menu" +
+            "\t1 - Add Power Supply\n" +
+            "\t2 - Go back to main menu\n" +
             "Your Option: ";
 
         private void functionOneSpecific()
@@ -54,22 +53,24 @@ namespace RSLogixPowerSupply
             Console.WriteLine("IN private function");
         }
 
-       
+
 
         static void Main(string[] args)
         {
             bool endApp = false;
             MainMenu MainMenuAction;
+            addItemMenu addItemMenuAction;
             displayOne();
             PowerSupply PWS1 = new PowerSupply();
             PWS1.network = 3;
             PWS1.NodeList.Add(2);
             PWS1.NodeList.Add(13);
-            foreach(var i in PWS1.NodeList)
+            foreach (var i in PWS1.NodeList)
             {
                 Console.WriteLine($"Network {PWS1.network} Node:{i}");
             }
-            
+            List<PowerSupply> PowerSupplyList = new List<PowerSupply>();
+
             while (!endApp)
 
 
@@ -78,24 +79,55 @@ namespace RSLogixPowerSupply
 
 
                 // MainMenu MainMenuAction = (MainMenu)Enum.Parse(typeof(MainMenu), Console.ReadLine()); // convert string to ENUM
-                
+
                 if (!Enum.TryParse(Console.ReadLine(), out MainMenuAction))
                     Console.WriteLine("I do not understand your option");
 
-                if(MainMenuAction == MainMenu.addItem)
+                if (MainMenuAction == MainMenu.AddItem)
                 {
+                    bool enditemMenu = false;
                     do
                     {
-                        Console.WriteLine(addItemText);
+
+                        Console.Write(addItemText);
+
+                        if (!Enum.TryParse(Console.ReadLine(), out addItemMenuAction))
+                            Console.WriteLine("I do not understand your option");
+                        else if (addItemMenuAction == addItemMenu.AddPowerSupply)
+                        {
+                            Console.Write("What is the PWS number: ");
+                            PowerSupply newPowerSupply = new PowerSupply();
+                            newPowerSupply.powerSupplyNumber = Console.ReadLine();
+                            Console.Write("Which PDP is the PWS fed from: ");
+                            newPowerSupply.PDPFeed = Console.ReadLine();
+                            Console.Write("Which AC leg is the PWS fed from: ");
+                            newPowerSupply.ACFeed = Console.ReadLine();
+                            PowerSupplyList.Add(newPowerSupply);
+
+
+                        }
+                        else
+                        {
+                            enditemMenu = true;
+                            foreach (var i in PowerSupplyList)
+                            {
+                                Console.WriteLine(i.powerSupplyNumber);
+                            }
+                        }
+
+
+
+
+
                     }
-                    while (Console.ReadLine() != "2");
-                    
+                    while (!enditemMenu);
+
                 }
                 if (MainMenuAction == MainMenu.EditItem)
                 {
                     //TODO
                 }
-                if (MainMenuAction == MainMenu.exit)
+                if (MainMenuAction == MainMenu.Exit)
                 {
                     Console.WriteLine("Goodbye!");
                     endApp = true;
