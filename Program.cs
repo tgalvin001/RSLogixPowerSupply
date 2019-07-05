@@ -46,10 +46,12 @@ namespace RSLogixPowerSupply
         {
             foreach(var i in t)
             {
+                
                 Console.WriteLine($"PWS{i.powerSupplyNumber} , AC{i.ACFeed}, PDP{i.PDPFeed} Network{i.network}");
-                foreach(var j in i.NodeList)
+                Console.Write($"XIC DNet0{i.network}.Module.Enable XIO DNet0{i.network}.Module.PwrOnTmr.EN ");
+                foreach (var j in i.NodeList)
                 {
-                    Console.Write($"XIO DNet{i.network}.Node[{j}].OK ");
+                    Console.Write($"XIO DNet0{i.network}.Node[{j}].OK ");
                 }
                 Console.Write($"OTE IP67.PWS{i.powerSupplyNumber}_OFF");
             }
